@@ -1,5 +1,20 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<!--
+  Freefall Fire Atlas
+  NASA Space Apps Challenge 2026 · Challenge: Flame in Freefall: SI-Powered Fire Safety Insights from Microgravity Combustion Data
+  Team: APPM · Pranshu Mehta (Team Owner), Alyan Popatia, Alex Qu · Local event: Edmonton, Alberta, Canada
+  Data as of 14 November 2026 (date the NASA PSI data was pulled)
+
+  AI disclosure: built with AI assistance. Claude (Anthropic; models Claude Opus 5.5 and Claude Fable 5.2)
+  extracted and cleaned the NASA PSI data, wrote the code, and drafted the summaries that are labeled
+  "AI-written" on the site. The human contributions are listed on the About tab (#about).
+  No NASA logos or mission insignia are used.
+-->
+<html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Freefall Fire Atlas</title>
+<meta name="generator" content="Built with Claude (Anthropic): AI-written code, AI-extracted data from NASA PSI, AI-written summaries labeled on the page">
+<meta name="description" content="Freefall Fire Atlas: NASA Space Apps 2026, Flame in Freefall. Ranks NASA PSI microgravity combustion investigations and maps their run data against planned Moon and Mars cabin atmospheres.">
+
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -271,6 +286,7 @@ ol.gaps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
 .brief .cond{font-family:var(--mono);font-size:12px;color:var(--muted)}
 @media (max-width:760px){.gap{grid-template-columns:1fr}.gap .gbody{grid-column:1}.gm-flab{min-width:0;width:100%}}
 table.dt a.ref{white-space:normal}
+@media (max-width:760px){a.ref{white-space:normal;overflow-wrap:anywhere}}
 table.dt td:first-child{white-space:nowrap}
 .keyfind{border-left:4px solid var(--warn);display:flex;flex-direction:column;gap:6px}
 .keyfind p{font-size:16.5px;max-width:92ch}
@@ -281,30 +297,62 @@ table.dt td:first-child{white-space:nowrap}
 .gm-briefl{stroke-dasharray:2 4}
 .k-brief{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:2 3}
 .gnote{font-size:12.5px;color:var(--muted);margin-top:5px}
+/* Tabs: one file, hash-routed. Without JavaScript every panel simply shows in order. */
+html{scroll-padding-top:64px}
+.tabs{position:sticky;top:0;z-index:30;display:flex;gap:6px;overflow-x:auto;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);margin-top:-12px;scrollbar-width:thin}
+.tabs a{flex:0 0 auto;font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--ink);text-decoration:none;padding:8px 14px;border:1px solid var(--line);border-radius:4px;background:var(--surface);white-space:nowrap}
+.tabs a:hover{border-color:var(--accent)}
+.tabs a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tabpanel{display:flex;flex-direction:column;gap:30px;min-width:0}
+.tabcards a.fi{text-decoration:none;color:var(--ink)}
+.tabcards a.fi:hover{border-color:var(--accent)}
+.tabcards a.fi h3{color:var(--accent)}
+.tabcards a.fi p{color:var(--muted)}
+.about{display:flex;flex-direction:column;gap:12px}
+.aboutbody{display:flex;flex-direction:column;gap:10px;font-size:14px}
+.aboutbody h3{font-size:16px}
+.aboutbody p,.aboutbody li{max-width:92ch}
+.aboutbody ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.about-psi{columns:2 320px;column-gap:28px;display:block!important}
+.about-psi li{break-inside:avoid;margin-bottom:4px;overflow-wrap:anywhere}
+.aboutbody li{overflow-wrap:anywhere}
+footer.sitefoot{border-top:1px solid var(--line);padding-top:14px;max-width:none}
 </style>
 
 <div class="wrap">
+  <nav class="tabs" id="tabs" aria-label="Sections of the Atlas">
+    <a href="#overview" data-tablink="overview">Overview</a>
+    <a href="#map" data-tablink="map">Map</a>
+    <a href="#gaps" data-tablink="gaps">Gaps</a>
+    <a href="#rank" data-tablink="rank">Ranking</a>
+    <a href="#context" data-tablink="context">Context</a>
+    <a href="#about" data-tablink="about">About</a>
+  </nav>
+  <div class="tabpanel" id="tab-overview" data-tab="overview" data-label="Overview">
   <header>
     <span class="eyebrow">NASA Space Apps 2026 · Flame in Freefall · built on the PSI combustion repository</span>
     <h1>Freefall Fire Atlas</h1>
-    <p class="lede">The NASA Physical Sciences Informatics (PSI) repository holds 24 combustion records and 2,282 rows of run data on flames in microgravity. Choose the habitat you care about and the atlas ranks the records by how directly they inform fire safety there. Open a row for its objective, what was actually tested, its limits, key papers and its DOI for citation.</p>
+    <p class="lede">The NASA Physical Sciences Informatics (PSI) repository holds 24 combustion records and 2,282 rows of run data on flames in microgravity. On the Ranking tab, choose the habitat you care about and the atlas ranks the records by how directly they inform fire safety there. Open a row for its objective, what was actually tested, its limits, key papers and its DOI for citation.</p>
     <div class="facts" id="facts"></div>
   </header>
 
+
   <section class="panel keyfind" id="keyfind" aria-label="Key finding"></section>
 
-  <section class="panel ctl" aria-label="Controls">
-    <div class="ctl-row"><span class="eyebrow">Environment</span><div class="seg" id="presets"></div></div>
-    <div class="ctl-row"><span class="eyebrow">Lens</span><div class="seg" id="lenses"></div></div>
-    <details class="weights">
-      <summary>Tune criterion weights</summary>
-      <div class="wgrid" id="wgrid"></div>
-    </details>
+  <section aria-label="What is on each tab">
+    <div class="find tabcards">
+      <a class="fi" href="#map"><h3>Map</h3><p>Every PSI run by oxygen and pressure, against five planned cabin atmospheres.</p></a>
+      <a class="fi" href="#gaps"><h3>Gaps</h3><p>The gap matrix, the five ranked gaps and a briefing for each environment.</p></a>
+      <a class="fi" href="#rank"><h3>Ranking</h3><p>The PSI investigations scored for a chosen habitat, with side-by-side compare.</p></a>
+      <a class="fi" href="#context"><h3>Context</h3><p>What the research found, why it matters on Earth, and the fires behind it.</p></a>
+      <a class="fi" href="#about"><h3>About</h3><p>Sources, method, scoring rules, limits, and AI use and human contributions.</p></a>
+    </div>
   </section>
-
+  </div>
+  <div class="tabpanel" id="tab-map" data-tab="map" data-label="Map">
   <section class="panel" aria-labelledby="o2-h">
     <div class="sechead">
-      <span class="eyebrow">Coverage map · the centerpiece</span>
+      <span class="eyebrow">Coverage map</span>
       <h2 id="o2-h">Where the flights burned, and where crews will live next</h2>
       <p>Every PSI row with a chamber oxygen level, set against the five cabin atmospheres NASA plans to fly. Hover a mark for its runs and source. Numbers on this page are counted in your browser from the embedded PSI rows.</p>
       <p class="provline"><span class="prov psi">PSI data</span> circles and squares <span class="prov lit">NASA literature (not in PSI)</span> diamonds <span class="prov ai">Target environments</span> boxes, each cited below</p>
@@ -354,11 +402,13 @@ table.dt td:first-child{white-space:nowrap}
     </details>
   </section>
 
+  </div>
+  <div class="tabpanel" id="tab-gaps" data-tab="gaps" data-label="Gaps">
   <section aria-labelledby="gapm-h">
     <div class="sechead">
       <span class="eyebrow">Gap matrix</span>
       <h2 id="gapm-h">Which fire questions have data, in which cabin</h2>
-      <p>Each cell counts PSI runs “near” that environment: oxygen within ±3 percentage points and pressure within ±20% of the environment's range, limited to the investigations that address the hazard. Click a cell to list the runs behind it.</p>
+      <p>Each cell counts PSI runs “near” that environment: oxygen within ±3 percentage points and pressure within ±20% of the environment's range, limited to the investigations that address the hazard. Click a cell to list the runs behind it. The “near” windows are drawn on the Map tab.</p>
       <p class="provline"><span class="prov psi">PSI data</span> large number <span class="prov lit">NASA literature (not in PSI)</span> shown as “+n lit” and never added to the PSI count</p>
     </div>
     <div class="tblwrap"><table id="gx" class="gx"></table></div>
@@ -379,6 +429,26 @@ table.dt td:first-child{white-space:nowrap}
   </section>
 
 
+  <section aria-labelledby="brief-h">
+    <div class="sechead">
+      <span class="eyebrow">Interpretation</span>
+      <h2 id="brief-h">Briefing by environment</h2>
+      <p><span class="prov ai">AI-written summary, check sources</span> Written by Claude from the PSI records and the cited NASA papers. Counts are filled in from the data. Follow the links before relying on any sentence.</p>
+    </div>
+    <div class="briefs" id="briefs"></div>
+  </section>
+
+  </div>
+  <div class="tabpanel" id="tab-rank" data-tab="rank" data-label="Ranking">
+  <section class="panel ctl" aria-label="Controls">
+    <div class="ctl-row"><span class="eyebrow">Environment</span><div class="seg" id="presets"></div></div>
+    <div class="ctl-row"><span class="eyebrow">Lens</span><div class="seg" id="lenses"></div></div>
+    <details class="weights">
+      <summary>Tune criterion weights</summary>
+      <div class="wgrid" id="wgrid"></div>
+    </details>
+  </section>
+
   <section aria-labelledby="rank-h">
     <div class="sechead">
       <h2 id="rank-h">Ranked by relevance</h2>
@@ -396,6 +466,8 @@ table.dt td:first-child{white-space:nowrap}
     <div class="tblwrap" id="cmp"></div>
   </section>
 
+  </div>
+  <div class="tabpanel" id="tab-context" data-tab="context" data-label="Context">
   <section aria-labelledby="find-h">
     <div class="sechead">
       <h2 id="find-h">What the data says about spacecraft fire safety</h2>
@@ -418,15 +490,6 @@ table.dt td:first-child{white-space:nowrap}
       </ol>
       <p class="src" style="margin-top:8px">Guide p.35</p>
     </div>
-  </section>
-
-  <section aria-labelledby="brief-h">
-    <div class="sechead">
-      <span class="eyebrow">Interpretation</span>
-      <h2 id="brief-h">Briefing by environment</h2>
-      <p><span class="prov ai">AI-written summary, check sources</span> Written by Claude from the PSI records and the cited NASA papers. Counts are filled in from the data. Follow the links before relying on any sentence.</p>
-    </div>
-    <div class="briefs" id="briefs"></div>
   </section>
 
   <section aria-labelledby="earth-h">
@@ -454,25 +517,77 @@ table.dt td:first-child{white-space:nowrap}
     </div>
   </section>
 
-  <footer>
-    <h2>Sources, method and disclosure</h2>
-    <p><b>How scores work.</b> Each of the 24 records has a 0–5 rating on seven criteria. The ratings are our editorial judgment from the PSI record text, the NASA guide and the challenge brief. They are not values published by NASA. Score = weighted average of the ratings, scaled to 100. Short descriptions are our paraphrase. The full record text, DOIs, publication lists and experiment run tables were pulled from the PSI repository on 14 November 2026, and the “Tested in PSI run tables” ranges are computed from those tables. Two ACME BRE entries that read 3400% and 2100% are treated as 34% and 21%. Cite each investigation by its DOI, as PSI asks.</p>
-    <p><b>How the coverage map and gap matrix work.</b> The page embeds every row of the PSI run tables and counts in the browser; no count in those sections is typed in. Inverse-flame rows are excluded from anything about chamber oxygen, because their oxygen is the burner stream. FLEX-2 rows are test-matrix combinations, so they are drawn as open circles and never added to run counts. ACME daily summaries are drawn as squares. Rows with oxygen but no pressure sit in the side rail. Rows with no oxygen cannot be drawn and are listed under the chart. A run is “near” an environment when its oxygen is within ±3 percentage points of the environment's oxygen range and its pressure is within ±20% of its pressure range. The hazard-to-investigation mapping is shown under the matrix and is our judgment. ACME E-FIELD Flames appears in the partial-gravity column as “analog only”, following the challenge brief, and is never counted as a PSI run. Two lunar definitions are kept apart by name: the “brief's region” (30% O₂ or greater at 10.2 psi or less, open-ended) and the “NASA lunar target” (the 30–34% O₂, 8.2–10.2 psia box that the matrix matches against). Risk = data gap × hazard weight × isolation, with the weights shown beside the ranked list. Only environments whose values are all cited can set a gap's rank; an environment with an assumed value is reported as a note.</p>
-    <p><b>Three kinds of content, labeled throughout.</b> <span class="prov psi">PSI data</span> comes from the PSI run tables and records. <span class="prov lit">NASA literature (not in PSI)</span> covers Saffire IV–VI, SoFIE-GEL and LUCI points, taken from the papers listed below and drawn as diamonds. <span class="prov ai">AI-written</span> covers the environment briefings, the gap wording, the hazard weights and the paraphrases of NASA text.</p>
-    <p><b>Target environments.</b> ISS, Orion, lunar and Mars transit values are from the NASA sources linked in the environment table. The Mars surface oxygen level is assumed and marked as such. Pressures were converted with 1 atm = 14.696 psi = 101.325 kPa.</p>
-    <p><b>AI use.</b> The page and its code were built with Claude, an AI assistant from Anthropic. Claude drafted the layout, wrote the code, paraphrased the source text, and proposed the 0–5 ratings and preset weights. Claude also pulled and cleaned the PSI run tables. For the coverage map, gap matrix, ranked gaps and briefings, Claude looked up and read the NASA papers listed below, defined the target environments and the hazard mapping, chose the hazard weights, and wrote the briefings and gap descriptions. The ranking and all counts are transparent rule-based calculations, not a language model answering live.</p>
-    <p><b>License.</b> Original content on this page is released under Apache 2.0. NASA data and text remain NASA's and are cited below.</p>
-    <ul>
+  </div>
+  <div class="tabpanel" id="tab-about" data-tab="about" data-label="About">
+  <section aria-labelledby="about-h" class="about">
+    <div class="sechead">
+      <span class="eyebrow">About and method</span>
+      <h2 id="about-h">About the Freefall Fire Atlas</h2>
+      <p><b>Data as of 14 November 2026</b>, the date the NASA PSI data was pulled.</p>
+    </div>
+    <div class="panel aboutbody">
+      <h3>What the Atlas is</h3>
+      <p>Freefall Fire Atlas is an entry for the NASA Space Apps Challenge 2026, challenge “Flame in Freefall: SI-Powered Fire Safety Insights from Microgravity Combustion Data”. It summarizes, ranks and interprets the combustion investigations in NASA's Physical Sciences Informatics (PSI) repository for fire safety in crewed cabins. The Map tab sets the PSI run data against planned cabin atmospheres, the Gaps tab shows which fire questions lack data, and the Ranking tab scores each investigation for a chosen habitat.</p>
+      <p>Team APPM: Pranshu Mehta (Team Owner), Alyan Popatia, Alex Qu. Local event: Edmonton, Alberta, Canada.</p>
+    </div>
+    <div class="panel aboutbody">
+      <h3>Data sources</h3>
+      <p><b>NASA PSI repository.</b> <a href="https://psi.nasa.gov/physci/repo/search?q=combustion" target="_blank" rel="noopener">NASA Physical Sciences Informatics (PSI) Data Repository, combustion search</a>. The Atlas uses these investigation records and their experiment tables. PSI asks that each investigation be cited by its DOI:</p>
+      <ul id="about-psi" class="about-psi"></ul>
+      <p><b>NASA papers and other sources used for points that are not in PSI</b>, and for the target atmospheres, read on 14 November 2026:</p>
+      <ul id="src-list"></ul>
+      <p><b>Other sources used on the site.</b></p>
+      <ul>
       <li>NASA PSI Data Repository, Combustion Science search: psi.nasa.gov/physci/repo/search?q=combustion (26 results; 24 combustion records used)</li>
-      <li>NASA PSI investigation records and experiment tables (as-run test matrices for BASS, BASS-II and CFI), accessed 14 November 2026; each record's DOI is shown in its row</li>
+      <li>NASA PSI investigation records and experiment tables (as-run test matrices for BASS, BASS-II and CFI), accessed 14 November 2026; each record's DOI is shown in its row on the Ranking tab and in the list above</li>
       <li>NASA, <i>A Researcher's Guide to International Space Station Combustion Science</i>, 2015 (NP-2015-10-034-JSC)</li>
       <li>NASA Physical Sciences Program, Combustion Science (Glenn Research Center)</li>
       <li>NASA Space Apps 2026, Flame in Freefall challenge page and resources</li>
       <li>NASA SMA, Apollo 1 and Apollo 13 pages; NASA History, “25 Years Ago: Fire Aboard Space Station Mir” (2022)</li>
       <li>NASA Spinoff: Fire Detector (1978), Fireman's Air Tanks (1976), New Technology for the Fire Attire (1982)</li>
     </ul>
-    <p><b>Sources outside PSI, read on 14 November 2026.</b></p>
-    <ul id="src-list"></ul>
+    </div>
+    <div class="panel aboutbody">
+      <h3>Method summary</h3>
+      <p><b>How scores work.</b> Each of the 24 records has a 0–5 rating on seven criteria. The ratings are our editorial judgment from the PSI record text, the NASA guide and the challenge brief. They are not values published by NASA. Score = weighted average of the ratings, scaled to 100. Short descriptions are our paraphrase. The full record text, DOIs, publication lists and experiment run tables were pulled from the PSI repository on 14 November 2026, and the “Tested in PSI run tables” ranges are computed from those tables. Two ACME BRE entries that read 3400% and 2100% are treated as 34% and 21%. Cite each investigation by its DOI, as PSI asks.</p>
+    <p><b>How the coverage map and gap matrix work.</b> The page embeds every row of the PSI run tables and counts in the browser; no count in those sections is typed in. Inverse-flame rows are excluded from anything about chamber oxygen, because their oxygen is the burner stream. FLEX-2 rows are test-matrix combinations, so they are drawn as open circles and never added to run counts. ACME daily summaries are drawn as squares. Rows with oxygen but no pressure sit in the side rail. Rows with no oxygen cannot be drawn and are listed under the chart on the Map tab. A run is “near” an environment when its oxygen is within ±3 percentage points of the environment's oxygen range and its pressure is within ±20% of its pressure range. The hazard-to-investigation mapping is shown under the matrix on the Gaps tab and is our judgment. ACME E-FIELD Flames appears in the partial-gravity column as “analog only”, following the challenge brief, and is never counted as a PSI run. Two lunar definitions are kept apart by name: the “brief's region” (30% O₂ or greater at 10.2 psi or less, open-ended) and the “NASA lunar target” (the 30–34% O₂, 8.2–10.2 psia box that the matrix matches against). Risk = data gap × hazard weight × isolation, with the weights shown beside the ranked list on the Gaps tab. Only environments whose values are all cited can set a gap's rank; an environment with an assumed value is reported as a note.</p>
+    <p><b>Three kinds of content, labeled throughout.</b> <span class="prov psi">PSI data</span> comes from the PSI run tables and records. <span class="prov lit">NASA literature (not in PSI)</span> covers Saffire IV–VI, SoFIE-GEL and LUCI points, taken from the papers listed below and drawn as diamonds. <span class="prov ai">AI-written</span> covers the environment briefings, the gap wording, the hazard weights and the paraphrases of NASA text.</p>
+    <p><b>Target environments.</b> ISS, Orion, lunar and Mars transit values are from the NASA sources linked in the environment table on the Map tab. The Mars surface oxygen level is assumed and marked as such. Pressures were converted with 1 atm = 14.696 psi = 101.325 kPa.</p>
+    </div>
+    <div class="panel aboutbody">
+      <h3>Scoring rules</h3>
+      <p><b>Relevance score (Ranking tab).</b> Score = weighted average of an investigation's seven 0–5 ratings, scaled to 100. The weights come from the chosen environment preset and can be changed with the sliders on the Ranking tab.</p>
+      <p><b>“Near” rule (Gaps tab).</b> A run counts toward a gap-matrix cell when its oxygen is within ±3 percentage points of the environment's oxygen range and its pressure is within ±20% of its pressure range, and its investigation is mapped to that hazard.</p>
+      <p id="about-risk"></p>
+    </div>
+    <div class="panel aboutbody">
+      <h3>Limits</h3>
+      <ul>
+        <li>The 0–5 relevance ratings, preset weights, hazard weights and isolation scores are editorial judgments. They are shown openly and are not values published by NASA.</li>
+        <li>The data is a snapshot of PSI taken on 14 November 2026. Later additions to PSI are not included.</li>
+        <li>Many PSI rows record no pressure, and some record no oxygen. They are shown and counted separately, and cannot be matched to an atmosphere with certainty.</li>
+        <li>The Mars surface oxygen level is assumed and marked “assumed”. An assumed environment never sets a gap's rank.</li>
+        <li>Points marked “not in PSI” were read from NASA papers, not from a data repository. For one journal paper only the abstract was read.</li>
+        <li>Statements about planned experiments reflect the cited sources and may be out of date.</li>
+        <li>This is a research and education prototype. It is not a certified fire-safety tool.</li>
+      </ul>
+    </div>
+    <div class="panel aboutbody" id="about-ai">
+      <h3>AI use and human contributions</h3>
+      <p><b>What Claude did.</b> This site was built with AI assistance. Claude, an AI assistant from Anthropic (models Claude Opus 5.5 and Claude Fable 5.2), extracted and cleaned the NASA PSI data, wrote the code, and drafted the summaries that are labeled “AI-written” on the site.</p>
+      <p id="about-ai-detail"><b>AI use, in detail.</b> The page and its code were built with Claude, an AI assistant from Anthropic. Claude drafted the layout, wrote the code, paraphrased the source text, and proposed the 0–5 ratings and preset weights. Claude also pulled and cleaned the PSI run tables. For the coverage map, gap matrix, ranked gaps and briefings, Claude looked up and read the NASA papers listed below, defined the target environments and the hazard mapping, chose the hazard weights, and wrote the briefings and gap descriptions. The ranking and all counts are transparent rule-based calculations, not a language model answering live.</p>
+      <p><b>What the team did.</b></p>
+      <!-- HUMAN-CONTRIBUTIONS: replace the list item below with the team's own list before submitting. -->
+      <ul id="human-list">
+        <li>[TEAM TO FILL IN before submission: list what the team did by hand.]</li>
+      </ul>
+      <p><b>License.</b> Original content on this page is released under Apache 2.0. NASA data and text remain NASA's and are cited below.</p>
+      <p>No NASA logos or mission insignia are used on this site.</p>
+    </div>
+  </section>
+  </div>
+  <footer class="sitefoot">
+    <p><b>Data as of 14 Nov 2026</b> · Source: NASA Physical Sciences Informatics (PSI) repository · Team APPM, NASA Space Apps 2026 · Built with AI assistance (Claude, Anthropic) · <a href="#about">About, method and sources</a></p>
     <p>Rocket and propellant fire safety is outside what PSI covers.</p>
   </footer>
 </div>
@@ -958,7 +1073,7 @@ table.dt td:first-child{white-space:nowrap}
     var lunE=byId(ENV,"lunar"),nearAll=runsBoth.filter(function(r){return o2Near(lunE,r.o2)&&pNear(lunE,r.p);});
     var nearIn=nearAll.filter(function(r){return r.o2>=30-EPS&&r.p<=pBrief+EPS;}).length;
     GM.h.nearAll=nearAll.length;GM.h.nearIn=nearIn;
-    $("gm-defs").innerHTML='<b>Two lunar definitions, used the same way everywhere on this page.</b> The <b>brief\'s region</b> is the challenge text\'s open-ended condition: 30% O₂ or greater at 10.2 psi or less. A run is counted only if it sits inside it ('+cnt(inBrief.length)+' logged PSI runs). The <b>NASA lunar target</b> is box 3: '+esc(envCond(lunE))+'. The gap matrix counts runs <i>near</i> it, within ±'+O2TOL+' points of oxygen and ±'+(PTOL*100)+'% of pressure. Across all fuels, '+cnt(nearAll.length)+' logged PSI runs are near the NASA lunar target and '+cnt(nearIn)+' of those are also inside the brief\'s region, so the two counts differ without contradicting each other. '+ref("brief");
+    $("gm-defs").innerHTML='<b>Two lunar definitions, used the same way everywhere on this page.</b> The <b>brief\'s region</b> is the challenge text\'s open-ended condition: 30% O₂ or greater at 10.2 psi or less. A run is counted only if it sits inside it ('+cnt(inBrief.length)+' logged PSI runs). The <b>NASA lunar target</b> is box 3: '+esc(envCond(lunE))+'. The gap matrix on the Gaps tab counts runs <i>near</i> it, within ±'+O2TOL+' points of oxygen and ±'+(PTOL*100)+'% of pressure. Across all fuels, '+cnt(nearAll.length)+' logged PSI runs are near the NASA lunar target and '+cnt(nearIn)+' of those are also inside the brief\'s region, so the two counts differ without contradicting each other. '+ref("brief");
     /* static layer */
     var svg=$("gm"),s='<defs><pattern id="gm-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" class="gm-hatch"/></pattern></defs>';
     for(var o=Math.ceil(gy0/10)*10;o<=gy1;o+=10)s+='<line class="gm-grid" x1="'+GX(0.47)+'" x2="'+GPR+'" y1="'+GY(o)+'" y2="'+GY(o)+'"/><text class="gm-ax" x="'+(GPR+10)+'" y="'+(GY(o)+4)+'">'+o+'%</text>';
@@ -973,7 +1088,7 @@ table.dt td:first-child{white-space:nowrap}
 
     $("gm-envchips").innerHTML=ENV.map(function(e){return '<button class="chip gm-chip" data-gmenv="'+e.id+'" aria-pressed="true"><span class="envn">'+e.n+'</span>'+esc(e.label)+'</button>';}).join("");
     $("gm-nearsel").innerHTML='<option value="">none</option>'+ENV.map(function(e){return '<option value="'+e.id+'"'+(e.id===GM.near?' selected':'')+'>'+e.n+' · '+esc(e.label)+'</option>';}).join("");
-    $("gm-nearkey").textContent="Dashed outline = within ±"+O2TOL+" points of oxygen and ±"+(PTOL*100)+"% of pressure. The gap matrix counts runs inside it.";
+    $("gm-nearkey").textContent="Dashed outline = within ±"+O2TOL+" points of oxygen and ±"+(PTOL*100)+"% of pressure. The gap matrix on the Gaps tab counts runs inside it.";
 
     $("gm-unplaced").innerHTML='<b>Not on the chart.</b> '+pl(noO2.length,"row")+' with no recorded oxygen ('+esc(groupCount(noO2))+') and '+pl(inv.length,"inverse-flame row")+', where the oxygen is the burner stream and not chamber air. The side rail holds '+pl(rail.length,"row")+' with oxygen but no recorded pressure ('+esc(groupCount(rail))+'). All of them are in the tables below.';
 
@@ -1262,7 +1377,7 @@ table.dt td:first-child{white-space:nowrap}
   function buildGapSections(){
     buildGapMap();buildMatrix();buildGaps();buildBriefs();
     var H=GM.h,ks=CELLS.lunar.spread,kp=CELLS.lunar.pg,nSolid=AMB.filter(function(r){return r.cls===0&&r.o2!==null;}).length;
-    $("keyfind").innerHTML='<span class="eyebrow">Key finding</span><p>The challenge brief expects Moon base and rover air at 30% oxygen or more and 10.2 psi or less. PSI holds '+cnt(nSolid)+' solid-material rows with an oxygen level and none is above '+n1(H.solidMax)+'% O₂, so cabin materials have not been burned in that air in any PSI dataset: of the '+cnt(H.inBrief)+' logged runs inside the brief\'s region, '+H.briefCls[0]+' are solids. Near the NASA lunar target the only solid-material flight burns are '+ks.lit.length+' Saffire-VI tests that are not in PSI, and PSI has '+kp.direct.length+' runs at lunar or Martian gravity, with '+pl(kp.analog.length,"E-FIELD Flames test day")+' as an electric-field analog only.</p><p class="small muted">Counts are live from the embedded PSI rows. <a href="#o2-h">See the coverage map</a> · <a href="#gapm-h">gap matrix</a> · <a href="#gaps-h">ranked gaps</a></p>';
+    $("keyfind").innerHTML='<span class="eyebrow">Key finding</span><p>The challenge brief expects Moon base and rover air at 30% oxygen or more and 10.2 psi or less. PSI holds '+cnt(nSolid)+' solid-material rows with an oxygen level and none is above '+n1(H.solidMax)+'% O₂, so cabin materials have not been burned in that air in any PSI dataset: of the '+cnt(H.inBrief)+' logged runs inside the brief\'s region, '+H.briefCls[0]+' are solids. Near the NASA lunar target the only solid-material flight burns are '+ks.lit.length+' Saffire-VI tests that are not in PSI, and PSI has '+kp.direct.length+' runs at lunar or Martian gravity, with '+pl(kp.analog.length,"E-FIELD Flames test day")+' as an electric-field analog only.</p><p class="small muted">Counts are live from the embedded PSI rows. <a href="#map">See the coverage map (Map tab)</a> · <a href="#gapm-h">gap matrix</a> and <a href="#gaps-h">ranked gaps</a> (Gaps tab)</p>';
     document.addEventListener("click",function(ev){var b=ev.target.closest("[data-gx]");if(!b)return;var k=b.dataset.gx.split("|");showCell(k[0],k[1]);});
     $("src-list").innerHTML=Object.keys(SRC).map(function(k){var x=SRC[k];return '<li>'+esc(x.f)+(x.u?' <a href="'+esc(x.u)+'" target="_blank" rel="noopener">link</a>':'')+'</li>';}).join("");
     window.__FFA={CELLS:CELLS,GM:GM,ENV:ENV,HAZ:HAZ,LIT:LIT};
@@ -1291,6 +1406,32 @@ table.dt td:first-child{white-space:nowrap}
     }
   });
   buildControls();buildGapSections();renderAll();
+
+  /* ---- About tab lists (filled from the same records the Ranking tab uses) ---- */
+  (function(){
+    var u=$("about-psi");
+    if(u)u.innerHTML=D.map(function(d){var r=REC[d.psi]||{};var page='https://psi.nasa.gov/physci/repo/data/investigations/'+d.psi;
+      return '<li><b>'+d.psi+'</b> '+esc(d.name)+': '+(r.doi?'<a href="https://doi.org/'+esc(r.doi)+'" target="_blank" rel="noopener">doi.org/'+esc(r.doi)+'</a> · ':'')+'<a href="'+page+'" target="_blank" rel="noopener">PSI page</a></li>';}).join("");
+    var rr=$("about-risk"),g=$("gaps-rule");
+    if(rr&&g)rr.innerHTML=g.innerHTML.replace("<b>Scoring rule.</b>","<b>Risk score for the ranked gaps (Gaps tab).</b>");
+  })();
+  /* ---- tabs: hash routing. #overview #map #gaps #rank #context #about; an element id opens the tab that holds it. ---- */
+  (function(){
+    var panels=Array.prototype.slice.call(document.querySelectorAll(".tabpanel")),links=Array.prototype.slice.call(document.querySelectorAll("[data-tablink]"));
+    var names=panels.map(function(p){return p.dataset.tab;}),baseTitle="Freefall Fire Atlas";
+    function route(){
+      var hsh=decodeURIComponent((location.hash||"").replace(/^#/,"")),tab=names.indexOf(hsh)>-1?hsh:"",target=null;
+      if(!tab&&hsh){var el=document.getElementById(hsh),p=el&&el.closest?el.closest(".tabpanel"):null;if(p){tab=p.dataset.tab;target=el;}}
+      if(!tab)tab="overview";
+      panels.forEach(function(p){p.hidden=p.dataset.tab!==tab;});
+      links.forEach(function(a){if(a.dataset.tablink===tab){a.setAttribute("aria-current","page");if(a.scrollIntoView)a.scrollIntoView({block:"nearest",inline:"nearest"});}else a.removeAttribute("aria-current");});
+      var cur=panels[names.indexOf(tab)];
+      document.title=baseTitle+" · "+cur.dataset.label;
+      if(target&&target.scrollIntoView)target.scrollIntoView();else window.scrollTo(0,0);
+    }
+    window.addEventListener("hashchange",route);
+    route();
+  })();
 })();
 </script>
 
