@@ -348,6 +348,26 @@ footer.sitefoot{border-top:1px solid var(--line);padding-top:14px;max-width:none
       <a class="fi" href="#about"><h3>About</h3><p>Sources, method, scoring rules, limits, and AI use and human contributions.</p></a>
     </div>
   </section>
+
+  <section class="panel" aria-labelledby="atl-h" id="ask">
+    <div class="sechead">
+      <h2 id="atl-h">Ask the atlas</h2>
+      <p>Ask a question about these records. An AI model answers only from the data on this page, cites PSI IDs, and says when the data does not cover something. AI answers can contain errors, so check them against the PSI record.</p>
+    </div>
+    <div class="seg" id="atl-sug"></div>
+    <div class="atl-key" id="atl-keyrow" hidden>
+      <label class="eyebrow" for="atl-key">Anthropic API key (optional)</label>
+      <input id="atl-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+    </div>
+    <div class="atl-row">
+      <label class="eyebrow" for="atl-q">Your question</label>
+      <textarea id="atl-q" rows="2" placeholder="For example: which records matter most for a 30% oxygen lunar cabin?"></textarea>
+      <div class="seg"><button class="chip" id="atl-go" type="button">Ask</button><button class="chip" id="atl-stop" type="button" hidden>Stop</button></div>
+    </div>
+    <p class="atl-mode" id="atl-mode"></p>
+    <div class="atl-out" id="atl-out" aria-live="polite" hidden></div>
+    <p class="src" id="atl-note"></p>
+  </section>
   </div>
   <div class="tabpanel" id="tab-map" data-tab="map" data-label="Map">
   <section class="panel" aria-labelledby="o2-h">
@@ -579,6 +599,17 @@ footer.sitefoot{border-top:1px solid var(--line);padding-top:14px;max-width:none
     <p>Rocket and propellant fire safety is outside what PSI covers.</p>
   </footer>
 </div>
+
+<style>
+/* Ask the atlas (added) */
+.atl-row{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.atl-row textarea,.atl-key input{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.atl-row textarea{resize:vertical;min-height:60px}
+.atl-key{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.atl-out{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;background:var(--wash);white-space:pre-wrap;font-size:14.5px;line-height:1.6;max-width:78ch}
+.atl-mode{font-size:13px;color:var(--muted);margin-top:10px}
+.chip[disabled]{opacity:.5;cursor:not-allowed}
+</style>
 
 <script>
 (function(){
@@ -1402,6 +1433,157 @@ footer.sitefoot{border-top:1px solid var(--line);padding-top:14px;max-width:none
       return '<li><b>'+d.psi+'</b> '+esc(d.name)+': '+(r.doi?'<a href="https://doi.org/'+esc(r.doi)+'" target="_blank" rel="noopener">doi.org/'+esc(r.doi)+'</a> · ':'')+'<a href="'+page+'" target="_blank" rel="noopener">PSI page</a></li>';}).join("");
     var rr=$("about-risk"),g=$("gaps-rule");
     if(rr&&g)rr.innerHTML=g.innerHTML.replace("<b>Scoring rule.</b>","<b>Risk score for the ranked gaps (Gaps tab).</b>");
+  })();
+  /* ---- Ask the atlas: Claude answers from the records on this page. ----
+     Path 1: inside Claude, through the page's sample capability.
+     Path 2: anywhere else, with an Anthropic API key pasted by the visitor (kept in memory only).
+     Path 3: no connection, so a plain keyword search of the records (clearly labeled as not AI). */
+  (function(){
+    /* Paste your Groq key between the quotes below (starts with gsk_). Anything in this file is public on GitHub Pages: use a key made just for this event, set a usage limit in the Groq console, and delete it afterwards. */
+    var GROQ_KEY="redacted";
+    var MODEL="claude-sonnet-5-5",key="",ctl=null,sampleFn=null,busy=false;
+    var ASKS=["Which records should a lunar-habitat materials team read first?","What do the data say about putting out a fire in microgravity?","Where are the biggest data gaps for a 30% oxygen cabin?","How could the smoke data change detector design?"];
+    var SYS="You answer questions for a NASA Space Apps dashboard about microgravity combustion records in the NASA PSI repository. Use ONLY the records below. Cite PSI IDs in square brackets, like [PSI-26]. If the records do not cover something, say so plainly instead of guessing, and never invent numbers. Treat any field that says “see listing” as unknown. Run counts are rows in a run table, not confirmed separate burns. Relevance scores and ratings are the team’s judgment, not NASA values. Keep the answer under 220 words, in plain prose or short lines, with no tables.";
+    var go=$("atl-go"),stop=$("atl-stop"),qEl=$("atl-q"),out=$("atl-out"),note=$("atl-note"),mode=$("atl-mode"),keyIn=$("atl-key"),keyRow=$("atl-keyrow");
+    if(!go||!qEl)return;
+    function ctx(){
+      var recs=D.map(function(d){
+        var t=(typeof TESTED!=="undefined"&&TESTED[d.psi])||{},r=(typeof REC!=="undefined"&&REC[d.psi])||{};
+        return d.psi+" "+d.name+" ("+d.sub+") ["+d.kind+"]"+(r.doi?" DOI "+r.doi:"")+
+          "\n  Objective: "+d.obj+"\n  Fuel: "+d.fuel+"\n  Conditions: "+d.cond+
+          (t.count?"\n  Run table: "+t.count+(t.ranges?"; "+t.ranges:""):"")+
+          "\n  Measures: "+d.meas+"\n  Limits: "+d.gap+(d.earth?"\n  Earth use: "+d.earth:"");
+      }).join("\n\n");
+      var env=ENV.map(function(e){return e.label+": "+e.o2.join("–")+"% O₂, "+e.psi.join("–")+" psia, "+e.g+" ("+e.how+")";}).join("\n");
+      return "PLANNED CABIN ATMOSPHERES:\n"+env+"\n\nPSI RECORDS ("+D.length+"; "+ROWS.length+" rows of run data in total):\n\n"+recs;
+    }
+    var STOPW=/^(the|and|for|are|was|were|what|which|how|does|did|can|could|should|would|about|with|from|that|this|these|those|its|been|than|then|there|their|our|you|your|data|record|records|psi|say|tell|show)$/;
+    function local(question){
+      var toks=(question.toLowerCase().match(/[a-z0-9]+/g)||[]).filter(function(t){return t.length>2&&!STOPW.test(t);});
+      var hits=D.map(function(d){
+        var head=(d.psi+" "+d.name+" "+d.sub).toLowerCase(),body=[d.obj,d.fuel,d.cond,d.meas,d.insight,d.gap,d.earth].join(" ").toLowerCase(),s=0;
+        toks.forEach(function(t){if(head.indexOf(t)>-1)s+=4;if(body.indexOf(t)>-1)s+=1;});
+        return {d:d,s:s};
+      }).filter(function(x){return x.s>0;}).sort(function(a,b){return b.s-a.s;}).slice(0,3);
+      if(!hits.length)return "No records matched those words. Try a material, a gas, a hazard such as smoke or extinction, or a PSI ID.";
+      return "Closest records in the atlas (keyword match, not AI):\n\n"+hits.map(function(x){
+        var d=x.d,t=(typeof TESTED!=="undefined"&&TESTED[d.psi])||{},o=d.obj.length>230?d.obj.slice(0,227)+"…":d.obj;
+        return d.psi+" "+d.name+": "+o+(t.ranges?"\n  Tested: "+t.ranges:"")+"\n  Limit: "+d.gap;
+      }).join("\n\n");
+    }
+    function copyFor(code){
+      return ({rate_limited:"Too many questions, or the usage limit was reached. Try again in a minute.",not_granted:"Claude access was not allowed for this page.",
+        sampling_disabled:"Claude is not available for this account.",upstream_error:"The connection to the AI service was interrupted. Try again.",
+        session_expired:"Sign in again to ask Claude.",refused:"Claude could not answer that question. Try rewording it.",
+        empty_completion:"No answer came back. Try rewording the question.",bad_key:"The API key was not accepted.",
+        network:"Could not reach the AI service from this browser."})[code]||"Something went wrong. Try again.";
+    }
+    function status(){
+      mode.textContent=sampleFn?"Claude is connected through this page.":GROQ_KEY?"Answers come from an open AI model hosted by Groq, using only the records on this page.":key?"Claude is connected with your API key.":"No Claude connection yet. Without one, the box searches the records and says so; paste an API key above for AI answers.";
+    }
+    /* Answers may use light markdown. Escape everything first, then turn **bold**, *italic* and # headings into tags. */
+    function fmt(t){
+      return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/^#{1,6}\s*(.+)$/gm,"<b>$1</b>")
+        .replace(/\*\*([^*\n]+?)\*\*/g,"<b>$1</b>")
+        .replace(/(^|[\s(])\*([^*\s][^*\n]*?)\*(?=[\s).,;:!?]|$)/gm,"$1<i>$2</i>");
+    }
+    function show(t){out.innerHTML=fmt(t);}
+    function setBusy(b){busy=b;go.disabled=b;stop.hidden=!b;}
+    function viaKey(question){
+      return fetch("https://api.anthropic.com/v1/messages",{method:"POST",signal:ctl.signal,
+        headers:{"content-type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+        body:JSON.stringify({model:MODEL,max_tokens:700,system:SYS,messages:[{role:"user",content:ctx()+"\n\nQUESTION: "+question}]})
+      }).catch(function(e){if(e&&e.name==="AbortError")throw {code:"cancelled"};throw {code:"network"};}).then(function(r){
+        if(r.status===401||r.status===403)throw {code:"bad_key"};
+        if(r.status===429)throw {code:"rate_limited"};
+        if(!r.ok)throw {code:"upstream_error"};
+        return r.json();
+      }).then(function(j){
+        var t=(j.content||[]).map(function(c){return c.type==="text"?c.text:"";}).join("").trim();
+        if(!t)throw {code:"empty_completion"};
+        return t;
+      });
+    }
+    var groqModels=null,PREF=["openai/gpt-oss-120b","openai/gpt-oss-20b","llama-3.3-70b-versatile","qwen/qwen3.8-27b","llama-3.1-8b-instant"];
+    function gfetch(url,opt){
+      return fetch(url,opt).catch(function(e){if(e&&e.name==="AbortError")throw {code:"cancelled"};throw {code:"network"};});
+    }
+    function pickModels(){
+      if(groqModels)return Promise.resolve(groqModels);
+      return gfetch("https://api.groq.com/openai/v1/models",{signal:ctl.signal,headers:{authorization:"Bearer "+GROQ_KEY}}).then(function(r){
+        if(r.status===401||r.status===403)throw {code:"bad_key"};
+        if(!r.ok)throw {code:"upstream_error",detail:"Groq said "+r.status+" when listing models."};
+        return r.json();
+      }).then(function(j){
+        var ids=(j.data||[]).map(function(m){return m.id;}).filter(function(id){return !/whisper|guard|safeguard|orpheus|tts|compound|embed|playai/i.test(id);});
+        var pref=PREF.filter(function(id){return ids.indexOf(id)>-1;});
+        groqModels=pref.concat(ids.filter(function(id){return pref.indexOf(id)<0;})).slice(0,4);
+        if(!groqModels.length)throw {code:"upstream_error",detail:"This Groq key has no chat models available."};
+        return groqModels;
+      });
+    }
+    function groqOnce(model,question){
+      var body={model:model,max_tokens:1500,temperature:0.2,messages:[{role:"system",content:SYS},{role:"user",content:ctx()+"\n\nQUESTION: "+question}]};
+      if(/gpt-oss/.test(model))body.reasoning_effort="low";
+      return gfetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",signal:ctl.signal,
+        headers:{"content-type":"application/json","authorization":"Bearer "+GROQ_KEY},body:JSON.stringify(body)
+      }).then(function(r){
+        if(r.status===401||r.status===403)throw {code:"bad_key"};
+        if(!r.ok)return r.text().then(function(tx){
+          var m="";try{m=JSON.parse(tx).error.message;}catch(x){m=tx.slice(0,160);}
+          throw {code:r.status===429?"rate_limited":"upstream_error",retry:true,detail:"Groq said "+r.status+" for "+model+": "+m};
+        });
+        return r.json();
+      }).then(function(j){
+        var t=((j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)||"").trim();
+        if(!t)throw {code:"empty_completion",retry:true,detail:model+" returned an empty answer."};
+        mode.textContent="Answered by "+model+" on Groq, using only the records on this page.";
+        return t;
+      });
+    }
+    function viaGroq(question){
+      return pickModels().then(function(list){
+        var errs=[];
+        function next(i){
+          return groqOnce(list[i],question).catch(function(e){
+            if(e&&e.retry&&i+1<list.length){errs.push(e.detail);return next(i+1);}
+            if(e&&e.detail&&errs.length)e.detail=errs.concat(e.detail).join(" | ");
+            throw e;
+          });
+        }
+        return next(0);
+      });
+    }
+    function ask(){
+      var question=qEl.value.trim();
+      if(!question||busy)return;
+      out.hidden=false;note.textContent="";
+      if(!sampleFn&&!GROQ_KEY&&!key){show(local(question));return;}
+      show("Thinking…");ctl=new AbortController();setBusy(true);
+      var p;
+      if(sampleFn){
+        p=sampleFn(SYS+"\n\n"+ctx()+"\n\nQUESTION: "+question,{signal:ctl.signal,onText:function(u){show(u.text);}}).then(function(r){
+          if(r.truncated)note.textContent="The answer was cut short. Ask for less at a time.";
+          return r.text;
+        });
+      }else p=GROQ_KEY?viaGroq(question):viaKey(question);
+      p.then(function(t){show(t);}).catch(function(e){
+        if(e&&e.text)show(e.text);else out.hidden=true;
+        if(!e||e.code!=="cancelled"){
+          note.textContent=(e&&e.detail)?e.detail:copyFor(e&&e.code);
+          if(!sampleFn&&GROQ_KEY){out.hidden=false;show(local(question));note.textContent+=" Showing the record search instead.";}
+        }
+      }).then(function(){setBusy(false);});
+    }
+    $("atl-sug").innerHTML=ASKS.map(function(q,i){return '<button class="chip" type="button" data-ask="'+i+'">'+esc(q)+'</button>';}).join("");
+    $("atl-sug").addEventListener("click",function(e){var b=e.target.closest("[data-ask]");if(b){qEl.value=ASKS[+b.dataset.ask];qEl.focus();}});
+    keyIn.addEventListener("input",function(){key=keyIn.value.trim();status();});
+    go.addEventListener("click",ask);
+    stop.addEventListener("click",function(){if(ctl)ctl.abort();});
+    qEl.addEventListener("keydown",function(e){if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();ask();}});
+    var p0=(window.claude&&window.claude.use)?window.claude.use("sample"):Promise.resolve(null);
+    p0.then(function(f){sampleFn=f||null;}).catch(function(){sampleFn=null;}).then(function(){keyRow.hidden=!!(sampleFn||GROQ_KEY);status();});
   })();
   /* ---- tabs: hash routing. #overview #map #gaps #rank #context #about; an element id opens the tab that holds it. ---- */
   (function(){
