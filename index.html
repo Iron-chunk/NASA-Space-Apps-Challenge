@@ -1440,7 +1440,7 @@ footer.sitefoot{border-top:1px solid var(--line);padding-top:14px;max-width:none
      Path 3: no connection, so a plain keyword search of the records (clearly labeled as not AI). */
   (function(){
     /* Paste your Groq key between the quotes below (starts with gsk_). Anything in this file is public on GitHub Pages: use a key made just for this event, set a usage limit in the Groq console, and delete it afterwards. */
-    var GROQ_KEY="redacted";
+    var GROQ_KEY="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",GROQ_MODEL="llama-3.3-70b-versatile";
     var MODEL="claude-sonnet-5-5",key="",ctl=null,sampleFn=null,busy=false;
     var ASKS=["Which records should a lunar-habitat materials team read first?","What do the data say about putting out a fire in microgravity?","Where are the biggest data gaps for a 30% oxygen cabin?","How could the smoke data change detector design?"];
     var SYS="You answer questions for a NASA Space Apps dashboard about microgravity combustion records in the NASA PSI repository. Use ONLY the records below. Cite PSI IDs in square brackets, like [PSI-26]. If the records do not cover something, say so plainly instead of guessing, and never invent numbers. Treat any field that says “see listing” as unknown. Run counts are rows in a run table, not confirmed separate burns. Relevance scores and ratings are the team’s judgment, not NASA values. Keep the answer under 220 words, in plain prose or short lines, with no tables.";
